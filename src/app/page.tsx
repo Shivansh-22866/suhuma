@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
+import { Sign } from "crypto"
 
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false)
@@ -28,20 +30,56 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Particle-like floating elements with shader effects */}
-        <div className="absolute top-20 left-10 w-32 h-32 bg-primary/10 rounded-full particle-shader" />
+        {/* Floating flower petals */}
+        <div className="absolute top-20 left-10 w-16 h-16 flower-bloom" style={{ animationDelay: "0s" }}>
+          <div className="flower-petal bg-primary/20"></div>
+          <div className="flower-petal bg-primary/20"></div>
+          <div className="flower-petal bg-primary/20"></div>
+          <div className="flower-petal bg-primary/20"></div>
+          <div className="flower-petal bg-primary/20"></div>
+          <div className="flower-center bg-accent/30"></div>
+        </div>
+
+        <div className="absolute top-2/3 left-52 w-12 h-12 flower-bloom" style={{ animationDelay: "2s" }}>
+          <div className="flower-petal bg-accent/20"></div>
+          <div className="flower-petal bg-accent/20"></div>
+          <div className="flower-petal bg-accent/20"></div>
+          <div className="flower-petal bg-accent/20"></div>
+          <div className="flower-petal bg-accent/20"></div>
+          <div className="flower-center bg-primary/30"></div>
+        </div>
+
+        <div className="absolute top-3/4 left-5/6 w-20 h-20 flower-bloom" style={{ animationDelay: "4s" }}>
+          <div className="flower-petal bg-secondary/20"></div>
+          <div className="flower-petal bg-secondary/20"></div>
+          <div className="flower-petal bg-secondary/20"></div>
+          <div className="flower-petal bg-secondary/20"></div>
+          <div className="flower-petal bg-secondary/20"></div>
+          <div className="flower-center bg-accent/30"></div>
+        </div>
+
+        <div className="absolute top-10 left-2/3 w-14 h-14 flower-bloom z-50" style={{ animationDelay: "6s" }}>
+          <div className="flower-petal bg-primary/15"></div>
+          <div className="flower-petal bg-primary/15"></div>
+          <div className="flower-petal bg-primary/15"></div>
+          <div className="flower-petal bg-primary/15"></div>
+          <div className="flower-petal bg-primary/15"></div>
+          <div className="flower-center bg-secondary/30"></div>
+        </div>
+
+        {/* Additional scattered petals */}
         <div
-          className="absolute top-40 right-20 w-24 h-24 bg-accent/10 rounded-full particle-shader wave-effect"
-          style={{ animationDelay: "2s" }}
-        />
+          className="absolute top-10 left-32 w-8 h-8 single-petal bg-primary/10"
+          style={{ animationDelay: "1s" }}
+        ></div>
         <div
-          className="absolute bottom-32 left-1/4 w-40 h-40 bg-secondary/10 rounded-full particle-shader"
-          style={{ animationDelay: "4s" }}
-        />
+          className="absolute bottom-1/4 right-1/4 w-6 h-6 single-petal bg-accent/10"
+          style={{ animationDelay: "3s" }}
+        ></div>
         <div
-          className="absolute top-1/2 right-1/3 w-28 h-28 bg-primary/8 rounded-full particle-shader wave-effect"
-          style={{ animationDelay: "6s" }}
-        />
+          className="absolute top-3/4 left-1/5 w-10 h-10 single-petal bg-secondary/10"
+          style={{ animationDelay: "5s" }}
+        ></div>
 
         {/* Shimmer overlay effects */}
         <div className="absolute inset-0 shimmer-effect opacity-30" />
@@ -52,7 +90,7 @@ export default function HomePage() {
         <nav className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg soft-pulse wave-effect" />
-            <span className="font-serif text-2xl font-bold text-foreground">Serene Journal</span>
+            <span className="font-serif text-2xl font-bold text-foreground">Suhuma</span>
           </div>
           <div className="hidden md:flex items-center space-x-8">
             <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors duration-300">
@@ -70,12 +108,15 @@ export default function HomePage() {
             >
               Stories
             </a>
-            <Button
-              variant="outline"
-              className="hover:bg-primary hover:text-primary-foreground transition-all duration-300 glass-shader bg-transparent"
-            >
-              Sign In
-            </Button>
+            <SignedOut>
+              <SignUpButton>
+                Sign Up
+              </SignUpButton>
+              <SignInButton/>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
         </nav>
       </header>
@@ -91,10 +132,11 @@ export default function HomePage() {
             </Badge>
             <h1 className="font-serif text-5xl md:text-7xl font-bold text-foreground mb-8 leading-tight">
               Journal with
-              <span className="block bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent gradient-shift relative">
-                Mindful AI
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent shimmer-effect" />
-              </span>
+<span className="block bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent gradient-shift relative">
+  Mindful AI
+  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent shimmer-effect blur-sm" />
+</span>
+
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
               Transform your daily reflections into a journey of growth with personalized AI insights, gentle guidance,
@@ -282,7 +324,7 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
               <div className="w-6 h-6 bg-gradient-to-br from-primary to-accent rounded-md" />
-              <span className="font-serif text-xl font-bold text-foreground">Serene Journal</span>
+              <span className="font-serif text-xl font-bold text-foreground">Suhuma</span>
             </div>
             <div className="flex items-center space-x-6 text-sm text-muted-foreground">
               <a href="#" className="hover:text-foreground transition-colors">
@@ -297,7 +339,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-border/50 text-center text-sm text-muted-foreground">
-            <p>© 2025 Serene Journal. Crafted with care for your mental wellness journey.</p>
+            <p>© 2025 Suhuma. Crafted with care for your mental wellness journey.</p>
           </div>
         </div>
       </footer>
